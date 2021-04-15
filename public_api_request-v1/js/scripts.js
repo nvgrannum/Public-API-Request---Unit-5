@@ -28,7 +28,6 @@ return new Promise ((resolve, reject) => {
 })
 };
 
-//console.log(registrar(randUserUrl));
 //Make a promise of promises so page waits for all 'data' to load before displaying
 
 function getProfiles() {
