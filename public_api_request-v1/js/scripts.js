@@ -1,5 +1,7 @@
 
-const randUserUrl = 'https://randomuser.me/api/';
+const randUserUrl = 'https://randomuser.me/api/?results=12&nat=us';
+const gallery = document.querySelector('title');
+    console.log(gallery);
 let profiles = [];
 let data;
 
@@ -8,37 +10,28 @@ Makes a new promise and goes to the url 12 times. Each time it goes to the URL,
 it 'gets' the JSON and stores it in the array 'profiles'. 
 */
 
-function registrar(url) {
-return new Promise ((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    //for (let i=0; i<12; i++) {
-        xhr.open('GET', url);
-        xhr.onload = () => {
-            if (xhr.status === 200) {
-                data = JSON.parse(xhr.responseText);
-                resolve(profiles.push(data));
-                //console.log(data);
-            } else {
-                reject(Error(xhr.statusText));
-            }
-        };
-
-        xhr.send()
-//}
-})
-};
-
-//Make a promise of promises so page waits for all 'data' to load before displaying
-
-function getProfiles() {
-    for (let i=0; i<12; i++) {
-        // let profile = registrar(randUserUrl);
-        // profiles.push(profile); 
-        registrar(randUserUrl);
-    }
-    //console.log(Promise.all(data))
+async function registrar(url) {
+    const response = await fetch(url);
+    profiles = await response.json()
+        .then(profile => console.log(profile));  
     return profiles;
-    
-};
+}
 
-console.log(getProfiles());
+let test = registrar(randUserUrl)
+
+
+test.forEach(person => {
+   person =
+    `<div class="card">
+        <div class="card-img-container">
+            <img class="card-img" src="https://placehold.it/90x90" alt="profile picture">
+        </div>
+        <div class="card-info-container">
+            <h3 id="name" class="card-name cap">first last</h3>
+            <p class="card-text">email</p>
+            <p class="card-text cap">city, state</p>
+        </div>
+    </div>`
+
+gallery.insertAdjacentHTML('beforeend', person) 
+});
