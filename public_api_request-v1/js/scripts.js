@@ -42,8 +42,8 @@ function generateProfiles(arr) {
 };
 
 
-function createModal(profiles){
-    let modal = profiles.map(employee =>
+function createModal(employee){
+    let modal =
             `<div class="modal-container">
                 <div class="modal">
                     <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -54,8 +54,8 @@ function createModal(profiles){
                         <p class="modal-text cap">${employee.location.city}</p>
                         <hr>
                         <p class="modal-text">${employee.phone}</p>
-                        <p class="modal-text">${employee.location.street.number} ${employee.location.street.name}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
-                        <p class="modal-text">Birthday: ${employee.dob.date}</p>
+                        <p class="modal-text">$${employee.location.street.number} ${employee.location.street.name}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
+                        <p class="modal-text">Birthday: ${employee.dob.date.toLocaleDateString()}</p>
                     </div>
                 </div>
 
@@ -65,22 +65,24 @@ function createModal(profiles){
                     <button type="button" id="modal-next" class="modal-next btn">Next</button>
                 </div>
             </div>`
-   );  
+   ;  
    gallery.insertAdjacentHTML('afterend',modal);
    console.log(modal)       
 };
 
-// document.addEventListener('click', (e)=> {
-//     console.log(e.target)
-//     console.log(e.target.classList.contains('card'));
-//     if (e.target.classList.contains('card')) {
-//         createModal(e.target)
-//     }
-// })
+document.addEventListener('click', (e)=> {
+    console.log(e.target)
+    console.log(e.target.classList.contains('card'));
+    if (e.target.classList.contains('card')) {
+        createModal(e.target.textContent)
+    }
+})
 
-// document.addEventListener('click', e => {
-//     if(e.target.type === 'BUTTON' && e.target.className === 'modal-close-btn') {
-//         modal.display = 'none';
-//     }
-// })
+document.addEventListener('click', e => {
+    const closeButton = document.querySelector('.modal-close-btn');
+    const modalCont = document.querySelector('.modal-container')
+        if(e.target === closeButton || e.target.textContent ==="X") {
+            modalCont.remove;
+        }
+})
 registrar(randUserUrl)
