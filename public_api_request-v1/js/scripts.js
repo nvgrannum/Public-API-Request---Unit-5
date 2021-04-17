@@ -3,12 +3,16 @@ const randUserUrl = 'https://randomuser.me/api/?results=12&nat=us';
 const gallery = document.querySelector('#gallery');
 const title = document.querySelector('title');
 const search = document.querySelector('#search-container');
-const card = document.querySelector('.card-info-container');
 const body = document.querySelector('body');
+
 let profiles = [];
 let data;
 
 /*
+Fetches data from Random User Generator and waits for all 12 users before proceeding.
+Takes the response from the fetch request and "converts" that JSON string into readable JS.
+The 'results' from JS is an array that is given to generateProfiles to make the cards on the page and
+individual, which displays the modal window for the individual employee.
 
 */
 
@@ -19,9 +23,15 @@ async function registrar(url) {
             profiles = data.results;
             console.log(profiles);
             generateProfiles(profiles);
-            //createModal(profiles)
+            individual(profiles)
         })
+        .catch(err => Error('we have a problem'))
 };
+
+/*
+generateProfiles takes the fetched results from the registrar function and iterates over that array.
+Makes a new card for each employee and inserts each new card to the end of the gallery div.
+*/
 
 function generateProfiles(arr) {
     arr.map(person => {
@@ -41,6 +51,10 @@ function generateProfiles(arr) {
         })
 };
 
+/*
+When a user clicks on a card, that employees's individual data (stored in the registrar function) is called 
+and a modal window is created and inserted after the gallery, displaying employee information. 
+*/
 
 function createModal(employee){
     let modal =
@@ -54,35 +68,35 @@ function createModal(employee){
                         <p class="modal-text cap">${employee.location.city}</p>
                         <hr>
                         <p class="modal-text">${employee.phone}</p>
-                        <p class="modal-text">$${employee.location.street.number} ${employee.location.street.name}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
-                        <p class="modal-text">Birthday: ${employee.dob.date.toLocaleDateString()}</p>
+                        <p class="modal-text">${employee.location.street.number} ${employee.location.street.name}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>
+                        <p class="modal-text">Birthday: ${employee.dob.date.slice(5,7)}/${employee.dob.date.slice(8,10)}/${employee.dob.date.slice(0,4)}</p>
                     </div>
                 </div>
-
-                // IMPORTANT: Below is only for exceeds tasks 
-                <div class="modal-btn-container">
-                    <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-                    <button type="button" id="modal-next" class="modal-next btn">Next</button>
-                </div>
-            </div>`
-   ;  
-   gallery.insertAdjacentHTML('afterend',modal);
-   console.log(modal)       
+            </div>`;
+              
+   gallery.insertAdjacentHTML('afterend', modal);
+   console.log(modal)   
+       
 };
 
-document.addEventListener('click', (e)=> {
-    console.log(e.target)
-    console.log(e.target.classList.contains('card'));
-    if (e.target.classList.contains('card')) {
-        createModal(e.target.textContent)
-    }
-})
+/*
+Creates an event listener on each employee 'card' that is created. When that card is clicked on, 
+it takes the employee data results at that index and passes it to the createModal function.
+This function is also intended to be able to close the modal, but is a one-and-done right now.
+*/
 
-document.addEventListener('click', e => {
+function individual(data) {
+    const card = document.querySelectorAll('.card');
     const closeButton = document.querySelector('.modal-close-btn');
-    const modalCont = document.querySelector('.modal-container')
-        if(e.target === closeButton || e.target.textContent ==="X") {
-            modalCont.remove;
-        }
-})
+    const modalCont = document.querySelector('.modal-container');
+    for (let i=0; i<data.length; i++) {
+        card[i].addEventListener('click', (e)=> {
+            createModal(data[i]) 
+    })
+    }
+    closeButton.addEventListener('click', (e) => {
+        modalCont.remove();
+    })
+}
+
 registrar(randUserUrl)
