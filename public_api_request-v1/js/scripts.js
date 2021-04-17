@@ -75,7 +75,12 @@ function createModal(employee){
             </div>`;
               
    gallery.insertAdjacentHTML('afterend', modal);
-   console.log(modal)   
+   
+   const modalCont = document.querySelector('.modal-container');
+   const closeButton = document.querySelector('.modal-close-btn');
+   closeButton.addEventListener('click', (e) => {
+    modalCont.remove();
+    })   
        
 };
 
@@ -87,16 +92,11 @@ This function is also intended to be able to close the modal, but is a one-and-d
 
 function individual(data) {
     const card = document.querySelectorAll('.card');
-    const closeButton = document.querySelector('.modal-close-btn');
-    const modalCont = document.querySelector('.modal-container');
     for (let i=0; i<data.length; i++) {
         card[i].addEventListener('click', (e)=> {
             createModal(data[i]) 
     })
     }
-    closeButton.addEventListener('click', (e) => {
-        modalCont.remove();
-    })
 }
 
 registrar(randUserUrl)
