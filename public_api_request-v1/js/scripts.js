@@ -54,6 +54,7 @@ function generateProfiles(arr) {
 /*
 When a user clicks on a card, that employees's individual data (stored in the registrar function) is called 
 and a modal window is created and inserted after the gallery, displaying employee information. 
+After the modal window is created, this function has an eventlistener to get the close button to function.
 */
 
 function createModal(employee){
@@ -75,7 +76,7 @@ function createModal(employee){
             </div>`;
               
    gallery.insertAdjacentHTML('afterend', modal);
-   
+
    const modalCont = document.querySelector('.modal-container');
    const closeButton = document.querySelector('.modal-close-btn');
    closeButton.addEventListener('click', (e) => {
@@ -87,7 +88,6 @@ function createModal(employee){
 /*
 Creates an event listener on each employee 'card' that is created. When that card is clicked on, 
 it takes the employee data results at that index and passes it to the createModal function.
-This function is also intended to be able to close the modal, but is a one-and-done right now.
 */
 
 function individual(data) {
